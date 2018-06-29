@@ -1,0 +1,17 @@
+{
+  "name": "myhashmap-javascript",
+  "version": "1.0.0",
+  "description": "An guided implementation of a Hash Map in JavaScript, inspired by curriculum at a/A.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "hashmap"
+  ],
+  "author": "Alvin James Delos Santos",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "jest": "^23.2.0"
+  }
+}
