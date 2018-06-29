@@ -13,5 +13,9 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "jest": "^23.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ajdelossantos/myHashMap-myLRUCache.git"
   }
 }
