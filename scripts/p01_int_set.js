@@ -22,17 +22,21 @@ class MaxIntSet {
       return this._validate(int);
     }
 
-    try {
-      this.has(int) === true;
-    } catch (e) {
-      throw new ReferenceError('Set does not include this integer')
+    if (this.has(int) === false) {
+      throw new ReferenceError('Set does not include this integer');
+    } else {
+      this.store[int] = false;
+      return int;
     }
-
-    this.store[int] = false;
-    return int;
   }
 
   has(int) {
+    try {
+      this._validate(int);
+    } catch (e) {
+      return e;
+    }
+
     return this.store[int]
   }
 
@@ -46,33 +50,56 @@ class MaxIntSet {
     }
   }
 
-  _toString() {
-    return `${this.store}`;
+  toString() {
+    return `[${this.store}]`;
   }
 };
 
 class IntSet {
   constructor(numBuckets = 20) {
-    this.store = new Array(20).fill(new Array);
+    this.store = new Array(numBuckets).fill(0);
+    this._intializeStore();
   }
 
   has(int) {
-
+    return this._bucket(int).includes(int);
   }
 
-  insert() {
+  insert(int) {
+    if (this.has(int) === false) {
+      let newBucket = this._bucket(int);
+      newBucket.push(int);
 
+      this.store[int % this._numBuckets()] = newBucket;
+    };
+
+    return this.store;
   }
 
-  remove() {
+  remove(int) {
+    if (this.has(int) === true) {
+      let newBucket = this._bucket(int);
+      newBucket = newBucket.filter(el => el !== int);
 
+      this.store[int % this._numBuckets()] = newBucket;
+    }
+
+    return int;
   }
 
-  _num_buckets() {
+  _intializeStore() {
+    return this.store = this.store.map(bucket => bucket = new Array);
+  }
+
+  _bucket(int) {
+    return this.store[int % this._numBuckets()];
+  }
+
+  _numBuckets() {
     return this.store.length;
   }
 
-  _toString() {
+  toString() {
     return `${this.store}`;
   }
 };
@@ -82,5 +109,8 @@ class ResizingIntSet {
 
   }
 };
+
+// For testing
+console.log("Test your scripts here!")
 
 module.exports = { MaxIntSet, IntSet, ResizingIntSet };
