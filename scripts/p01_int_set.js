@@ -40,6 +40,10 @@ class MaxIntSet {
     return this.store[int]
   }
 
+  toString() {
+    return `[${this.store}]`;
+  }
+
   _isValid(int) {
     return int >= 0 && int < this.setLength;
   }
@@ -50,14 +54,11 @@ class MaxIntSet {
     }
   }
 
-  toString() {
-    return `[${this.store}]`;
-  }
 };
 
 class IntSet {
   constructor(numBuckets = 20) {
-    this.store = new Array(numBuckets).fill(0);
+    this.store = new Array(numBuckets).fill(false);
     this._intializeStore();
   }
 
@@ -67,10 +68,7 @@ class IntSet {
 
   insert(int) {
     if (this.has(int) === false) {
-      let newBucket = this._bucket(int);
-      newBucket.push(int);
-
-      this.store[int % this._numBuckets()] = newBucket;
+      this.store[int % this._numBuckets()].push(int);
     };
 
     return this.store;
@@ -78,13 +76,52 @@ class IntSet {
 
   remove(int) {
     if (this.has(int) === true) {
-      let newBucket = this._bucket(int);
-      newBucket = newBucket.filter(el => el !== int);
-
-      this.store[int % this._numBuckets()] = newBucket;
+      let index = this.store[int % this._numBuckets()].indexOf(int);
+      this.store[int % this._numBuckets()].splice(index, 1);
     }
 
     return int;
+  }
+
+  toString() {
+    return `${this.store}`;
+  }
+
+  _intializeStore() {
+    return this.store = this.store.map(bucket => bucket = new Array);
+  }
+
+  _bucket(int) {
+    return this.store[int % this._numBuckets()];
+  }
+
+  _numBuckets() {
+    return this.store.length;
+  }
+};
+
+class ResizingIntSet {
+  constructor(numBuckets = 20) {
+    this.store = new Array(numBuckets).fill(false);
+    this.count = 0;
+    this._intializeStore();
+  }
+
+  has(int) {
+
+  }
+
+  insert(int) {
+
+  }
+
+  remove(int) {
+
+  }
+
+
+  toString() {
+    return `${this.store}`;
   }
 
   _intializeStore() {
@@ -99,13 +136,7 @@ class IntSet {
     return this.store.length;
   }
 
-  toString() {
-    return `${this.store}`;
-  }
-};
-
-class ResizingIntSet {
-  constructor() {
+  _resize() {
 
   }
 };
