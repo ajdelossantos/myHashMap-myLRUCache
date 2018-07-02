@@ -1,4 +1,4 @@
-require('../scripts/p02_hashing');
+require('../scripts/solutions/p02_hashing');
 
 // Shuffles an array. Fisher-Yates method
 function shuffle(array) {

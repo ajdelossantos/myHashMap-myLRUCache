@@ -1,4 +1,4 @@
-const { MaxIntSet, IntSet, ResizingIntSet } = require('../scripts/p01_int_set');
+const { MaxIntSet, IntSet, ResizingIntSet } = require('../scripts/skeleton/p01_int_set');
 
 describe('MaxIntSet', () => {
   let set1 = new MaxIntSet(50);
