@@ -185,8 +185,17 @@ describe('ResizingIntSet', () => {
   });
 
   describe('ResizingIntSet#_resize', () => {
-    test.skip('should resize when enough items are inserted', () => {
+    test('should resize when enough items are inserted', () => {
+      const spyResize = jest.spyOn(set3, '_resize');
 
+      for (let i = 0; i < 21; i++) {
+        set3.insert(i);
+      };
+
+      expect(spyResize).toHaveBeenCalledTimes(1);
+
+      spyResize.mockReset();
+      spyResize.mockRestore();
     });
 
     test('should move elements into the correct bucket after resizing', () => {
