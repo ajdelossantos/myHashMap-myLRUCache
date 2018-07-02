@@ -167,7 +167,6 @@ class ResizingIntSet {
     this._intializeStore();
 
     currentValues.forEach(int => (this.insert(int)));
-    // this.store = doubledResizingIntSet.store;
   }
 };
 

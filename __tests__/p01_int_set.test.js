@@ -32,13 +32,13 @@ describe('MaxIntSet', () => {
       const insertFifty = () => {
         set1.insert(50);
       };
-      const insertTwo = () => {
+      const insertNegativeOne = () => {
         set1.insert(-1);
       };
 
-
+      // error.message = 'Out of Bounds'
       expect(insertFifty).toThrowError('Out of Bounds');
-      expect(insertTwo).toThrowError('Out of Bounds');
+      expect(insertNegativeOne).toThrowError('Out of Bounds');
     });
   });
 
@@ -90,9 +90,12 @@ describe('IntSet', () => {
   describe('Implementation', () => {
     describe('when implemented using a store of arrays', () => {
       // Probably tests too many things.
-      test('operations are performed on the correct bucket', () => {
-        expect(Array.isArray(set2.store[0])).toBe(true);
+      test('the store is comprised of nested arrays', () => {
+        expect(set2.store).toBeInstanceOf(Array);
+        expect(set2.store[0]).toBeInstanceOf(Array);
+      })
 
+      test('operations are performed on the correct bucket', () => {
         set2.insert(1);
 
         expect(set2.store[1]).toContain(1);
@@ -129,7 +132,7 @@ describe('ResizingIntSet', () => {
   describe('ResizingIntSet#insert', () => {
     test('should be able to insert any numbers', () => {
       const insertFortyNine = set3.insert(49);
-      expect(insertFortyNine instanceof Error).toBe(false)
+      expect(insertFortyNine).not.toBeInstanceOf(Error)
 
       set3.insert(50)
       expect(set3.has(50)).toBe(true);
@@ -210,14 +213,15 @@ describe('ResizingIntSet', () => {
       })
     });
 
+    // Directly tests implementation of a store
     test('should create twice as many buckets', () => {
-      let previousNumBuckets = set3._numBuckets();
+      let previousNumBuckets = set3.store.length;
 
       for (let i = 0; i < 21; i++) {
         set3.insert(i);
       }
 
-      expect(set3._numBuckets()).toBe(2 * previousNumBuckets);
+      expect(set3.store.length).toBe(2 * previousNumBuckets);
     });
 
     test('should not change the count of the set', () => {
