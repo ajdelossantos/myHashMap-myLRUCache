@@ -1,7 +1,12 @@
 const { MaxIntSet, IntSet, ResizingIntSet } = require('../scripts/p01_int_set');
 
 describe('MaxIntSet', () => {
-  const set1 = new MaxIntSet(50);
+  let set1 = new MaxIntSet(50);
+
+  afterEach(() => {
+    let defaultSet = new MaxIntSet(50)
+    set1 = defaultSet;
+  })
 
   describe('MaxIntSet#has', () => {
     test('should return false unless the number has been inserted', () => {
@@ -48,7 +53,12 @@ describe('MaxIntSet', () => {
 });
 
 describe('IntSet', () => {
-  const set2 = new IntSet(20);
+  let set2 = new IntSet(20);
+
+  afterEach(() => {
+    let defaultSet = new IntSet(20)
+    set2 = defaultSet;
+  })
 
   describe('IntSet#has', () => {
     test('should return false unless the number has been inserted', () => {
@@ -98,9 +108,10 @@ describe('IntSet', () => {
 
 describe('ResizingIntSet', () => {
   let set3 = new ResizingIntSet(20);
+
   afterEach(() => {
-    let empty = new ResizingIntSet(20)
-    set3 = empty;
+    let defaultSet = new ResizingIntSet(20)
+    set3 = defaultSet;
   })
 
   describe('ResizingIntSet#has', () => {
@@ -139,7 +150,9 @@ describe('ResizingIntSet', () => {
     });
 
     describe('if the number exists in the set', () => {
-      set3.remove(1);
+      beforeEach(() => {
+        set3.remove(1);
+      })
 
       test('should remove a number from the set', () => {
         expect(set3.has(1)).toBe(false);

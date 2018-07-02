@@ -1,3 +1,12 @@
+// Allows use of flat()
+Object.defineProperty(Array.prototype, 'flat', {
+  value: function (depth = 1) {
+    return this.reduce(function (flat, toFlatten) {
+      return flat.concat((Array.isArray(toFlatten) && (depth - 1)) ? toFlatten.flat(depth - 1) : toFlatten);
+    }, []);
+  }
+});
+
 class MaxIntSet {
   constructor(max) {
     this.store = new Array(max).fill(false);
@@ -123,7 +132,13 @@ class ResizingIntSet {
   };
 
   remove(int) {
+    if (this.has(int) === true) {
+      let index = this.store[int % this._numBuckets()].indexOf(int);
+      this.store[int % this._numBuckets()].splice(index, 1);
+      this.count--;
+    }
 
+    return int;
   }
 
 
@@ -145,12 +160,14 @@ class ResizingIntSet {
 
   _resize() {
     const newNumBuckets = this.store.length * 2;
-    const doubledResizingIntSet = new ResizingIntSet(newNumBuckets);
     const currentValues = this.store.flat();
 
-    currentValues.forEach(int => (doubledResizingIntSet.insert(int)));
-    this.store = doubledResizingIntSet.store;
-    this.count = doubledResizingIntSet.count;
+    this.count = 0;
+    this.store = new Array(newNumBuckets).fill(false);
+    this._intializeStore();
+
+    currentValues.forEach(int => (this.insert(int)));
+    // this.store = doubledResizingIntSet.store;
   }
 };
 
