@@ -108,12 +108,19 @@ class ResizingIntSet {
   }
 
   has(int) {
-
+    return this._bucket(int).includes(int);
   }
 
   insert(int) {
-
-  }
+    if (this.has(int) === false) {
+      if (this.count >= this._numBuckets()) {
+        this._resize();
+      }
+      this.store[int % this._numBuckets()].push(int)
+      this.count++;
+    }
+    return this.store;
+  };
 
   remove(int) {
 
@@ -137,7 +144,13 @@ class ResizingIntSet {
   }
 
   _resize() {
+    const newNumBuckets = this.store.length * 2;
+    const doubledResizingIntSet = new ResizingIntSet(newNumBuckets);
+    const currentValues = this.store.flat();
 
+    currentValues.forEach(int => (doubledResizingIntSet.insert(int)));
+    this.store = doubledResizingIntSet.store;
+    this.count = doubledResizingIntSet.count;
   }
 };
 

@@ -97,11 +97,16 @@ describe('IntSet', () => {
 });
 
 describe('ResizingIntSet', () => {
-  const set3 = new ResizingIntSet(20);
+  let set3 = new ResizingIntSet(20);
+  afterEach(() => {
+    let empty = new ResizingIntSet(20)
+    set3 = empty;
+  })
 
   describe('ResizingIntSet#has', () => {
     test('should return false unless the number has been inserted', () => {
-      expect(set3.has(1)).toBe(false);
+      let empty = new ResizingIntSet(5);
+      expect(empty.has(1)).toBe(false);
     });
 
     test('should return true if the number has been inserted', () => {
@@ -113,7 +118,7 @@ describe('ResizingIntSet', () => {
   describe('ResizingIntSet#insert', () => {
     test('should be able to insert any numbers', () => {
       const insertFortyNine = set3.insert(49);
-      expect(insertFortyNine).not.toThrow()
+      expect(insertFortyNine instanceof Error).toBe(false)
 
       set3.insert(50)
       expect(set3.has(50)).toBe(true);
@@ -129,7 +134,9 @@ describe('ResizingIntSet', () => {
   });
 
   describe('ResizingIntSet#remove', () => {
-    set3.insert(1);
+    beforeEach(() => {
+      set3.insert(1);
+    });
 
     describe('if the number exists in the set', () => {
       set3.remove(1);
