@@ -1,24 +1,24 @@
 require('../scripts/solutions/p02_hashing');
 
-// Shuffles an array. Fisher-Yates method
+// Returns a new, shuffled array. Fisher-Yates method
 function shuffle(array) {
-  let counter = array.length;
+  let result = array.map(el => el);
+  let counter = result.length;
 
   while (counter > 0) {
     let index = Math.floor(Math.random() * counter);
     counter--;
 
-    let temp = array[counter];
-    array[counter] = array[index];
-    array[index] = temp;
+    let temp = result[counter];
+    result[counter] = result[index];
+    result[index] = temp;
   }
 
-  return array;
+  return result;
 }
 
 describe('Hashing', () => {
-  // Ensures given hashing function works properly
-  describe('Number', () => {
+  describe.skip('Number', () => {
     test('should hash to an integer', () => {
       let a = 42;
       expect(typeof a.hash()).toBe("number");
@@ -63,7 +63,6 @@ describe('Hashing', () => {
 
     test('should produce different values for different orderings of an array', () => {
       let array = [];
-
       for (let i = 0; i < 100; i++) {
         array.push(i);
       }
